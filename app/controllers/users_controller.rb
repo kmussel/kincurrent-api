@@ -7,7 +7,7 @@ module Kincurrent
         get '/' do 
           puts "INSIDE THIS GET"
           puts "THE CURRENT USER = #{current_user.inspect}"
-          Publisher.publish("user123", {test:"blah"})          
+          # Publisher.publish("user123", {test:"blah"})          
           json ({success:"HELLO THERE"})
 
         end

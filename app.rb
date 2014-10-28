@@ -1,21 +1,10 @@
-require 'rubygems'
-require 'json'
-require 'bundler'
-require 'securerandom'
-require 'settingslogic'
+puts "INSIDE CONFIG"
+require 'config/boot'
+require 'lib/sinatra_cache'
 
 Bundler.require
 
-require 'sinatra/base'
-require 'sinatra/contrib'
-
-require 'sinatra/reloader'
-
 $LOAD_PATH.unshift('./app/models')
-
-Dir[File.dirname(__FILE__) + '/config/*.rb'].each {|file| require file}
-Dir[File.dirname(__FILE__) + '/app/services/*.rb'].each {|file| require file}
-Dir[File.dirname(__FILE__) + '/app/controllers/*.rb'].each {|file| require file}
 
 
 
@@ -25,11 +14,14 @@ module Kincurrent
 			register Sinatra::Reloader
 		end #/configure
 
+    
     register Sinatra::Contrib
     register Sinatra::Namespace
+    
+    use SinatraCache
 
 		use Rack::Deflater
-    # use Routes::Main
+
     use Kincurrent::UsersController
     use Kincurrent::StreamsController    
     # use Routes::Bookmarks

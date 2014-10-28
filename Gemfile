@@ -27,6 +27,7 @@ gem 'capistrano', '~> 2.15.5'
 gem 'settingslogic'
 gem "march_hare", "~> 2.4.0"
 gem "faraday"
+gem 'rabbitmq_http_api_client'
 
 group :development do
   # gem 'puma'

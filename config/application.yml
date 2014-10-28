@@ -1,4 +1,6 @@
 defaults: &defaults
+  rabbitmq_url: <%= ENV['rabbitmq_url'] || "amqp://rabbit:rabbit@localhost:5672/dev" %>
+  rabbitmq_api_url: <%= ENV['rabbitmq_api_url'] || "http://guest:guest@localhost:15672" %>  
   aws:
     access_key_id: AKIAIWMNME76CRB3GGXA
     secret_access_key: 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
@@ -10,15 +12,17 @@ defaults: &defaults
 
 development:
   <<: *defaults
-  rabbitmq_url: "amqp://rabbit:rabbit@localhost:5672/dev"    
+  rabbitmq_vhost: 'dev'  
+
 
 staging:
   <<: *defaults
-  rabbitmq_url: <%= ENV['rabbitmq_url'] %>
+  rabbitmq_vhost: 'staging'
 
 test:
   <<: *defaults
+  rabbitmq_vhost: 'test'  
 
 production:
   <<: *defaults
-  rabbitmq_url: <%= ENV['rabbitmq_url'] %>
+  rabbitmq_vhost: '/'  
