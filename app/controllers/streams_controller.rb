@@ -13,8 +13,8 @@ module Kincurrent
         end
         
 				get '/:streamID/?' do
-				  puts "THE USER ID = #{params[:streamID]}"
-					stream = Stream.get!("#13:#{params[:streamID]}")
+				  puts "THE stream ID = #{params[:streamID]}"
+					stream = Stream.get!(kin_id: params[:streamID])
 					if stream
 						stream.props.to_json
 					else
@@ -38,7 +38,7 @@ module Kincurrent
 				post '/:streamID/subscribe/?' do 
 					error 500 unless current_user
 
-          stream = Stream.get!("#13:#{params[:streamID]}")
+          stream = Stream.get!(kin_id: params[:streamID])
           status 404 and return unless stream
 
 				  if (Publisher.bind_queue("user.#{current_user.global_id}", stream.global_id))

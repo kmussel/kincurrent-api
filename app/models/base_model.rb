@@ -1,23 +1,26 @@
 require 'active_model'
 require 'oriented'
 require 'hooks'
+require 'json'
 
-module Kincurrent 
+module Kincurrent
 	class BaseModel
-    include Oriented::Vertex
+    include Oriented::Vertex      
     include Hooks
+    include ActiveModel::Validations
 
     define_hook :before_save
     before_save :generate_timestamp
-    before_save :generate_global_id
+    before_save :generate_kin_id
 
-		attr_reader :password
-
-		property :global_id
+    
+		property :kin_id		
 		property :updated_at,	type: Fixnum
 		property :created_at, type: Fixnum
 
-		
+		def rid
+		  __java_obj.get_rid
+		end
 		
 		def save
       run_hook :before_save
@@ -28,6 +31,10 @@ module Kincurrent
       run_hook :before_save
       super
     end
+    
+    def to_json(options = {})
+      props.to_json(options)
+    end
 
     protected
 
@@ -36,8 +43,8 @@ module Kincurrent
       self.updated_at = Time.now.utc.to_i
     end
     
-    def generate_global_id
-      self.global_id = UUIDTools::UUID.random_create.to_s unless self.global_id
+    def generate_kin_id
+      self.kin_id = UUIDTools::UUID.random_create.to_s unless self.kin_id
     end
 		
 	end #/Model

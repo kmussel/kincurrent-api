@@ -27,8 +27,8 @@ TorqueBox.configure do
       lazy false
     end
 
-  # when "development", "test"
-  #   puts "*** NOT Using bounded pools"
+  when "development", "test"
+    puts "*** NOT Using bounded pools"
   else
     puts "***Using bounded pools in PROD"
     pool :jobs do
@@ -59,11 +59,20 @@ TorqueBox.configure do
   end
 
   service RabbitmqService do
+    name 'projection_server'
     singleton true
     config do
       # max_retries 10
     end
   end
+  
+  service RabbitmqEventService do
+    name 'event_server'    
+    config do
+      # max_retries 10
+    end
+  end
+  
   # 
   # job CardStatuser do
   #   name 'card.statuser'

@@ -1,13 +1,11 @@
 
 module Kincurrent 
 		class UsersController < BaseController
-
+      set :views, File.expand_path('../../views/users', __FILE__)
+      
 			namespace '/users' do 
 
         get '/' do 
-          puts "INSIDE THIS GET"
-          puts "THE CURRENT USER = #{current_user.inspect}"
-          # Publisher.publish("user123", {test:"blah"})          
           json ({success:"HELLO THERE"})
 
         end
@@ -27,23 +25,38 @@ module Kincurrent
 					username 	= params[:username]
 					email		= params[:email]
 					password	= params[:password]
+					@user
 
-					user = User.create(:username => username, :email => email, :password => password, :api_key => SecureRandom.uuid)
-					if user.save!
-						user.to_json :exclude => [:email, :password, :password_digest, :password_salt]
+					@user = User.new(:username => username, :email => email, :password => password, :api_key => SecureRandom.uuid)
+					timeline = Stream.create(:name => "Timeline")
+					@user.streams.create_relationship_to(timeline, {kind:"timeline"})
+					attachments = Stream.create(:name => "Actions")
+					@user.streams.create_relationship_to(attachments, {kind:"actions"})
+					if @user.save && @user.valid?
+					  puts "CREATE the user"
+					  ge = Kincurrent::UserCreatedEvent.create(content: (jbuilder :create))
+			      result = Rpc.publish(ge.to_json, "user_created");
+			      puts "THE RESULT HERE = #{result.inspect}"
+			      result.except(*['password_salt', 'password_digest']).to_json
+            # user.to_json :exclude => [:email, :password, :password_digest, :password_salt]
 					else
 						status 400
-						json user.errors.to_hash
+						json @user.errors.to_hash
 					end
 				end #/post /
 
 				post '/auth/?' do 
+				  puts "THE PARAMS = #{params}"
 					username 	= params[:username]
 					password 	= params[:password]
 					user 		= User.authenticate(username, password)
 
 					if user
-						user.to_json :exclude => [:email, :password, :password_digest, :password_salt]
+					  puts "AUTHENTICATED"
+					  res = roar user, auth: true
+					  puts res.inspect
+					  res
+            # user.to_json :exclude => [:email, :password, :password_digest, :password_salt]
 					else
 						status 404
 						json({status: "failure", message: "Invalid username and/or password"})

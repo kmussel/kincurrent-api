@@ -1,8 +1,8 @@
 class Publisher
-  def self.publish(exchange = "events", route = "#", message = {})
+  def self.publish(message = "", route = "#", exchange = "events")
     channel.confirm_select
     x        = channel.topic(exchange, durable: true)
-    x.publish(message.to_json,
+    x.publish(message,
               routing_key: route, persistent: true,
               content_type: 'application/json',
               app_id: 'kincurrent'
