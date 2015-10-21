@@ -1,10 +1,10 @@
 require 'roar-sinatra'
 require 'roar/decorator'
-require 'roar/representer/json'
+require 'roar/json'
 
 
 class StreamEventRepresenter < Roar::Decorator
-  include Roar::Representer::JSON
+  include Roar::JSON
 
   [:rid, :kin_id, :created_at, :updated_at, :name].each do |v|
     property v

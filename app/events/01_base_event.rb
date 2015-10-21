@@ -3,9 +3,9 @@ require 'json'
 module Kincurrent
 	class BaseEvent
 		include DataMapper::Resource
-    storage_names[:default] = 'events'
-    # before :save, :generate_timestamp
-    before :save, :generate_kin_id
+	    storage_names[:default] = 'events'
+	    # before :save, :generate_timestamp
+	    before :save, :generate_kin_id
 
 		property :id, 				Serial
 		property :content, Json			
@@ -20,15 +20,15 @@ module Kincurrent
     #   props.to_json(options)
     # end
 
-    protected
+	    protected
 
-    def generate_timestamp
-      self.created_at = Time.now.utc.to_i unless created_at
-    end
-    
-    def generate_kin_id
-      self.kin_id = UUIDTools::UUID.random_create.to_s unless self.kin_id
-    end
+	    def generate_timestamp
+	      self.created_at = Time.now.utc.to_i unless created_at
+	    end
+	    
+	    def generate_kin_id
+	      self.kin_id = UUIDTools::UUID.random_create.to_s unless self.kin_id
+	    end
 		
 	end #/Model
 end #/BaseModel

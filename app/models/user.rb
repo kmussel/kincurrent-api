@@ -22,17 +22,17 @@ module Kincurrent
     validates :username, uniqueness: true
     
 		def password=(password)
-      @password         = password
-      self.password_salt    = SecureRandom.uuid
-      self.password_digest  = Digest::SHA1.hexdigest(@password + self.password_salt)
-
+			puts "password = #{password}"
+			@password         = password
+			self.password_salt    = SecureRandom.uuid
+			self.password_digest  = Digest::SHA1.hexdigest(@password + self.password_salt)
 		end
 
 		def self.authenticate(username, password)
-      user = get!(username: username)
-      puts "THE USER = #{user.inspect}"
-      hash = Digest::SHA1.hexdigest(password + user.password_salt)
-      user unless user.nil? || hash != user.password_digest
+			user = get!(username: username)
+			puts "THE USER = #{user.inspect}"
+			hash = Digest::SHA1.hexdigest(password + user.password_salt)
+			user unless user.nil? || hash != user.password_digest
 		end
 		
 		def timeline

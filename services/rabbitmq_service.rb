@@ -97,6 +97,7 @@ class RabbitmqService
       # end
       
       setup_post_subscriber
+      setup_user_subscriber
       
       puts "CREATING ANOTHER CHANNEL"
       setup_replay_subscriber
@@ -139,6 +140,37 @@ class RabbitmqService
         result.stream_events.each do |se|
           group_exchange.publish(StreamEventRepresenter.new(result).to_hash(), params)
         end
+      end
+
+      begin
+        params = {routing_key: meta.reply_to, content_type: 'application/json', app_id: 'kincurrent', correlation_id: meta.correlation_id}
+        # @listen_channel.basic_publish('', meta.reply_to, true, params, {success:'true'}.to_json.to_java_bytes) if meta.reply_to
+        
+        post_channel.default_exchange.publish(result.to_json, params)  if meta.reply_to
+        post_channel.ack(meta.delivery_tag)
+      rescue => e
+        puts "Message Processing Error #{e.inspect}"
+      end
+    end
+    
+  end
+
+    def setup_user_subscriber
+    
+    q = post_channel.queue('kincurrent_subscriber', durable: true)
+    q.bind(event_exchange, routing_key: 'user_created').subscribe(ack: true) do |meta, payload|
+    
+      puts "INSIDE RUN SUBSCRIBE USER here #{Thread.current.inspect}"
+      # content = JSON.parse(payload)        
+      # kin_event = Kincurrent::BaseEvent.get(content['id'])
+      # # puts "KIN EVENT = #{kin_event.inspect}"
+      result = process_event(payload) || {}
+
+      if result.class.to_s == 'Kincurrent::User'
+        params = {routing_key: "#{result.group.kin_id}.post_created", content_type: 'application/json', app_id: 'kincurrent', correlation_id: meta.correlation_id}                    
+        # result.stream_events.each do |se|
+        #   group_exchange.publish(UserRepresenter.new(result).to_hash(), params)
+        # end
       end
 
       begin

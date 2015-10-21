@@ -1,6 +1,6 @@
 source 'https://rubygems.org/'
 
-ruby '1.9.3', engine: 'jruby', engine_version: '1.7.16'
+ruby '1.9.3', engine: 'jruby', engine_version: '1.7.19'
 
 gem 'rack'
 gem 'rake'
@@ -11,6 +11,8 @@ gem 'uuidtools'
 gem 'data_mapper'
 gem 'dm-postgres-adapter'
 gem 'dm-types'
+
+gem "tilt-jbuilder", ">= 0.4.0", :require => "sinatra/jbuilder"
 
 # gem 'pg'
 # gem 'activerecord-jdbcpostgresql-adapter', '1.3.1'
@@ -34,7 +36,7 @@ gem 'torquebox-capistrano-support', '~>3.1.1', :group => :development
 gem 'capistrano', '~> 2.15.5'
 
 gem 'settingslogic'
-gem "march_hare", "~> 2.4.0"
+gem "march_hare", "~> 2.7.0"
 gem "faraday"
 gem 'rabbitmq_http_api_client'
 

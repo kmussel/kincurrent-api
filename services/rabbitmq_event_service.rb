@@ -27,7 +27,7 @@ class RabbitmqEventService
   
   def run
     begin
-      # puts "INSIDE RUN EVENT SERVICE here #{Thread.current.inspect}"
+      puts "INSIDE RUN EVENT SERVICE here #{Thread.current.inspect}"
       # # client = RabbitMQ::HTTP::Client.new(Settings.rabbitmq_api_url)
       # @connection ||= MarchHare.connect(uri: Settings.rabbitmq_url)    
       # @listen_channel = @connection.create_channel

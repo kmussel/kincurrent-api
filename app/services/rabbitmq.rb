@@ -27,6 +27,7 @@ class Rabbitmq
   def publish(message = "", route = "#", exchange = "streams", headers = {})
     params =  {routing_key: route, persistent: true, content_type: 'application/json', app_id: 'kincurrent' }.merge(headers)
     puts "PARAMS = #{params.inspect}"
+    puts "message = #{message}"
     channel.confirm_select
     # x = channel.exchange_declare(exchange, 'topic', true)        
     x = channel.topic(exchange, durable: true)    

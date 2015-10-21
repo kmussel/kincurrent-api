@@ -1,19 +1,19 @@
-require 'aws-sdk'
-require 'fog'
-require 'carrierwave'
+# require 'aws-sdk'
+# require 'fog'
+# require 'carrierwave'
 
 
-ENV['S3_ACCESS_KEY'] = 'AKIAJPMJHWM7NJXUDVQA'
-ENV['S3_SECRET_KEY'] = 'KyETICPFU4MswdfkXDCdul5G4B/PsMAtpLI/paQ7'
+# ENV['S3_ACCESS_KEY'] = 'YOUR ACCESS KEY'
+# ENV['S3_SECRET_KEY'] = 'YOUR SECRET KEY'
 
 
-CarrierWave.configure do |config|
-	config.fog_credentials = {
-		:provider 				=> 'AWS',
-		:aws_access_key_id 		=> 'AKIAJPMJHWM7NJXUDVQA',
-		:aws_secret_access_key 	=> 'KyETICPFU4MswdfkXDCdul5G4B/PsMAtpLI/paQ7'
-	}
+# CarrierWave.configure do |config|
+# 	config.fog_credentials = {
+# 		:provider 				=> 'AWS',
+# 		:aws_access_key_id 		=> ENV['S3_ACCESS_KEY'],
+# 		:aws_secret_access_key 	=> ENV['S3_SECRET_KEY']
+# 	}
 
-	config.fog_directory 	= 'pluckio'
-	config.fog_public 		= true
-end
+# 	config.fog_directory 	= 'yourdir'
+# 	config.fog_public 		= true
+# end

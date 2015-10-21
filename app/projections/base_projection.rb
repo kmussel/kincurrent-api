@@ -3,9 +3,10 @@ require 'json'
 module Kincurrent
 	class BaseProjection
 		include DataMapper::Resource
-    storage_names[:default] = 'projections'
-    before :save, :generate_timestamp
-    before :save, :generate_kin_id
+	
+	    storage_names[:default] = 'projections'
+	    before :save, :generate_timestamp
+	    before :save, :generate_kin_id
 
 		property :id, 				Serial
 		property :last_id,				Integer, default: 0
@@ -20,18 +21,18 @@ module Kincurrent
     #   props.to_json(options)
     # end
 
-    protected
+	    protected
 
-    def generate_timestamp
-      self.updated_at = Time.now.utc.to_i
-    end
-    
-    def generate_kin_id
-      self.kin_id = UUIDTools::UUID.random_create.to_s unless self.kin_id
-    end
+	    def generate_timestamp
+	      self.updated_at = Time.now.utc.to_i
+	    end
+	    
+	    def generate_kin_id
+	      self.kin_id = UUIDTools::UUID.random_create.to_s unless self.kin_id
+	    end
 		
 		def self.register cls
-		  p = cls.first_or_create()
+		    p = cls.first_or_create()
 		end
 
 	end #/Model

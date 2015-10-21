@@ -1,16 +1,20 @@
 Kincurrent
 ==========
 
-What is this? Basically it's a social api.  You can create users, groups and post to streams.  
+What is this? Basically it's a social api.  You can create users, groups and also post to streams.  
+
+It uses EventSourcing to keep track of every change made to the state of the application.  
+These events are then published to a queue using Rabbitmq either synchronously or asynchronously depending on which service you want to use.  
+The subscribers then take the events and create the objects in the graph database.  
 
 Technologies:
-Sinatra  (Probably would have been easier to use Rails but wanted to try it out)  
+Sinatra  (Probably would have been easier to use Rails but wanted to try it with this)  
 OrientDB (http://www.orientechnologies.com/  Great Graph/Document database)  
 Postgres  
 RabbitMQ  (http://www.rabbitmq.com/)  
 Torquebox (http://torquebox.org/    all-in-one environment, built upon the latest JBoss AS Java application server and JRuby)
 
-For postgres I'm using Datamapper (http://datamapper.org/)  
+For Postgres I'm using Datamapper (http://datamapper.org/)  
 For OrientDB I'm using Oriented (github.com/kmussel/oriented)  
 
 
@@ -18,14 +22,14 @@ For OrientDB I'm using Oriented (github.com/kmussel/oriented)
 ### Setup:
 
 #clone repo:
- git clone git@github.com:frenzylabs/kincurrent.git
+ git clone git@github.com:kmussel/kincurrent.git
 
 #Install Gems
  bundle install 
 
 # Install OrientDB
  brew install orientdb  
-* depends on the version this installs - at the moment I'm using 2.0-M3 so might have to just download it at http://www.orientechnologies.com/download/
+* depends on the version this installs - at the moment I'm using 2.1.0 so might have to just download it at http://www.orientechnologies.com/download/
 
 # Install RabbitMQ
  brew install rabbitmq
@@ -52,6 +56,9 @@ For OrientDB I'm using Oriented (github.com/kmussel/oriented)
 
 # Run OrientDB schema migration scripts
 RAILS_ENV=development ruby lib/tasks/orientdb_task.rb create_schema    
+** might need to comment out first the line in projections/base_projection 
+p = cls.first_or_create()
+**
   
   
 
@@ -90,17 +97,17 @@ Internal: No
 torquebox deploy  
 torquebox start  
 
-Web URL:  
+####Web URL:  
 http://localhost:8080  
 
-OrientDB URL  
+####OrientDB URL  
 http://localhost:2480  
 
-RabbitMQ URL  
+####RabbitMQ URL  
 http://localhost:15672  
 
 
-ORIENTDB:  
+###ORIENTDB:  
 Inside config/orientdatabase.rb  
 We initialize orientdb  
 we map the ruby classname to the orientdb schema classname  
