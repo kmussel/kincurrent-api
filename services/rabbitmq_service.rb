@@ -9,6 +9,7 @@ class RabbitmqService
   DEFAULT_RETRY_TIMEOUT = 15
 
   def initialize(opts = {})
+
     puts "INIT RABBITMQ Projection SERVICE"
     @retries_left = @max_retries = opts['max_retries'] || -1
     @retry_timeout = opts['retry_timeout'] || DEFAULT_RETRY_TIMEOUT
@@ -198,8 +199,9 @@ class RabbitmqService
   
   private
   
+
   def connection
-    @conn ||= MarchHare.connect(uri: Settings.rabbitmq_url)
+    @conn ||= MarchHare.connect(uri: Settings.rabbitmq_url, host: Settings.rabbitmq_host)
   end
   
   def channel

@@ -1,4 +1,5 @@
 require 'json'
+puts "INSIDE require base projection"
 
 module Kincurrent
 	class BaseProjection
@@ -33,6 +34,8 @@ module Kincurrent
 		
 		def self.register cls
 		    p = cls.first_or_create()
+		rescue Exception => e
+			puts "INSIDE RESCUE ERROR #{e.inspect}"
 		end
 
 	end #/Model

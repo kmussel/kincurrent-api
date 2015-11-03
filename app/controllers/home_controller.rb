@@ -2,6 +2,10 @@
 module Kincurrent 
 		class HomeController < BaseController
 
+		  get '/test' do
+		  	puts "INSIDE TEST"
+		  	status 200
+		  end
           get '/?' do 
             status 404 and return unless current_user
             stream_id = current_user.timeline.kin_id

@@ -1,3 +1,8 @@
+require 'aws-sdk'
+require 'fog'
+require 'carrierwave'
+require 'carrierwave/processing/rmagick'
+
 module Kincurrent
 	class Uploader < CarrierWave::Uploader::Base
     include CarrierWave::RMagick		  

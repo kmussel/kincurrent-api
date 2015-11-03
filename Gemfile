@@ -2,6 +2,9 @@ source 'https://rubygems.org/'
 
 ruby '1.9.3', engine: 'jruby', engine_version: '1.7.19'
 
+gem 'jruby-pageant'
+gem 'net-ssh', '2.9.2'
+gem 'fog-google', '0.1.0'
 gem 'rack'
 gem 'rake'
 gem "sinatra", "~> 1.4.3", require: 'sinatra/base'

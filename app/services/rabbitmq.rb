@@ -13,7 +13,7 @@ class Rabbitmq
   end
   
   def connection
-    @connection ||= MarchHare.connect(uri: Settings.rabbitmq_url)
+    @connection ||= MarchHare.connect(uri: Settings.rabbitmq_url, host: Settings.rabbitmq_host)
   end
   
   def channel

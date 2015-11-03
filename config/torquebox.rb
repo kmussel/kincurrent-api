@@ -3,7 +3,9 @@ TorqueBox.configure do
   #queue '/queues/import_csv' do
   #  processor ImportProcessor
   #end
+  
   puts "THE ENV = #{ENV.inspect}"
+  
   env = ENV["RACK_ENV"] || "development"
   case env
   when "staging"

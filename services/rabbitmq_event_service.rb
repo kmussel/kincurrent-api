@@ -11,6 +11,9 @@ class RabbitmqEventService
   DEFAULT_RETRY_TIMEOUT = 60
 
   def initialize(opts = {})
+    puts "THE ENV VARS = #{ENV.inspect}"
+     Settings.reload!
+     puts Settings.rabbitmq_url
     puts "INIT RABBITMQ EVENT SERVICE"
     @retries_left = @max_retries = opts['max_retries'] || -1
     @retry_timeout = opts['retry_timeout'] || DEFAULT_RETRY_TIMEOUT

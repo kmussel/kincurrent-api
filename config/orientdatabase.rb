@@ -3,12 +3,14 @@ require 'oriented'
 # Don't do this if we're raking
 return if (File.basename($0) == "rake" && ENV["RAKE_ORIENTED"].blank?)
 # if Sinatra::Base.development?
+puts "THE ENV = #{ENV.inspect}"
+
   Oriented.configure do |config|
-    config.url = ENV["ORIENTDB_URL"] || "remote:localhost/kincurrent_development"
+    config.url = ENV['ORIENTDB_URL'] || "remote:#{ENV['ORIENTDB_PORT_2424_TCP_ADDR']}/kincurrent_development" || "remote:localhost/kincurrent_development"
     config.pooled = true
     config.max_pool = 100
-    config.username = 'kincurrent'
-    config.password = 'family'
+    config.username = ENV['ORIENTDB_ENV_ORIENTDB_USER'] || 'kincurrent'
+    config.password = ENV['ORIENTDB_ENV_ORIENTDB_PWD'] || 'family'
     config.enable_local_cache = false
   end
 # elsif Sinatra::Base.test?

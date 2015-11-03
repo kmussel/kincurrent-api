@@ -16,10 +16,10 @@ module Kincurrent
 		has_n(:uploads)
 		has_n(:groups).to(Kincurrent::Group)	
 		has_n(:subscribes_to).to(Kincurrent::Group)
-    has_n(:streams).relationship(Kincurrent::OwnerStream, :owner_stream)
+        has_n(:streams).relationship(Kincurrent::OwnerStream, :owner_stream)
 
-    validates :email, uniqueness: true
-    validates :username, uniqueness: true
+        validates :email, uniqueness: true
+        validates :username, uniqueness: true
     
 		def password=(password)
 			puts "password = #{password}"
@@ -36,22 +36,22 @@ module Kincurrent
 		end
 		
 		def timeline
-      (s = streams_rels.select{|m| m[:kind] == 'timeline'}.first) && s.stream
-    end
+     	 (s = streams_rels.select{|m| m[:kind] == 'timeline'}.first) && s.stream
+    	end
     
 		def action_stream
-      (s = streams_rels.select{|m| m[:kind] == 'actions'}.first) && s.stream
-    end
+      		(s = streams_rels.select{|m| m[:kind] == 'actions'}.first) && s.stream
+    	end
 		
 		def subscribed_to_group?(g)
 		  !!self.groups.select{|m| m[:kin_id] == g.kin_id}.first
 		end
 		
 		def to_json(options={})
-      js = props
-      js[:streams] = self.streams.to_a
-      js.to_json(options)
-    end
+	      js = props
+	      js[:streams] = self.streams.to_a
+	      js.to_json(options)
+	    end
 
 	end #/User
-end #/Pluck
+end #/
